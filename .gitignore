@@ -1,0 +1,42 @@
+# ── .NET build output ────────────────────────────────────────────────────────
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+artifacts/
+*.dll
+*.pdb
+
+# ── NuGet ────────────────────────────────────────────────────────────────────
+*.nupkg
+*.snupkg
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.assets.json
+
+# ── Test / benchmark output ──────────────────────────────────────────────────
+[Tt]est[Rr]esults/
+*.trx
+*.coverage
+*.coveragexml
+**/BenchmarkDotNet.Artifacts/
+
+# ── Visual Studio / Rider / VS Code ──────────────────────────────────────────
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.DotSettings.user
+
+# ── SQLite sample databases ──────────────────────────────────────────────────
+*.db
+*.db-shm
+*.db-wal
+
+# ── OS noise ─────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db

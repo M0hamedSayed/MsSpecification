@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MsSpecification.Core/MsSpecification.Core.csproj" />
+    <Project Path="src/MsSpecification.Infra.EF/MsSpecification.Infra.EF.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/MsSpecification.Core.Tests/MsSpecification.Core.Tests.csproj" />
+    <Project Path="tests/MsSpecification.Infra.EF.Tests/MsSpecification.Infra.EF.Tests.csproj" />
+  </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/MsSpecification.Sample.Api/MsSpecification.Sample.Api.csproj" />
+    <Project Path="samples/MsSpecification.Sample.Api.Tests/MsSpecification.Sample.Api.Tests.csproj" />
+  </Folder>
+  <Folder Name="/benchmarks/">
+    <Project Path="benchmarks/MsSpecification.Benchmarks/MsSpecification.Benchmarks.csproj" />
+  </Folder>
+</Solution>
