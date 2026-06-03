@@ -1,0 +1,76 @@
+name: Build & Test
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+            10.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore MsSpecification.slnx
+
+      # Build the whole solution once. Each project compiles for the TFMs it declares
+      # (src + Infra.EF.Tests multi-target net8/9/10; Core.Tests, Sample.Api[.Tests] are net10).
+      - name: Build solution
+        run: dotnet build MsSpecification.slnx -c Release --no-restore
+
+      - name: Run Core unit tests
+        run: dotnet test tests/MsSpecification.Core.Tests -c Release --no-build --logger "trx"
+
+      # No --framework filter: runs the EF integration suite on every TFM the project targets (net8/9/10).
+      - name: Run EF integration tests (all TFMs)
+        run: dotnet test tests/MsSpecification.Infra.EF.Tests -c Release --no-build --logger "trx"
+
+      - name: Run sample API integration tests
+        run: dotnet test samples/MsSpecification.Sample.Api.Tests -c Release --no-build --logger "trx"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.os }}
+          path: "**/TestResults/*.trx"
+          if-no-files-found: ignore
+
+  pack:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+            10.0.x
+
+      - name: Restore
+        run: dotnet restore MsSpecification.slnx
+
+      - name: Pack
+        run: dotnet pack MsSpecification.slnx -c Release --output artifacts
+
+      - name: Upload NuGet artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages
+          path: |
+            artifacts/*.nupkg
+            artifacts/*.snupkg
