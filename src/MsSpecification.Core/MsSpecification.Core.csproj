@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>MsSpecification.Core</RootNamespace>
+    <AssemblyName>MsSpecification.Core</AssemblyName>
+    <PackageId>MsSpecification.Core</PackageId>
+    <Description>Core specification pattern abstractions, base classes, and builders — no EF Core dependency.</Description>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Public key derived from MsSpecification.snk. Required for InternalsVisibleTo to friend signed assemblies. -->
+    <MsSpecPublicKey>0024000004800000140100000602000000240000525341310008000001000100013952526b2828502cf8454ec0b0ea327b699863d4da6f0347985614f76da43dd1e87d377b2596580df95bef139fe9765bb5fb8ed91a20f0a3dcf1ff38ad8758d6ebf7e79081b5f39af034f659383691f26b19940076014134e8990b77b5ac75daef4eb40b12056dab9a875e9b3236740de81d5c26bfb0d53d7bdf9b18c1108bea7c7e28ab315ed8b435defa6a5d5d59ae4807bfbeadb8688b369ee3a8a9d278b42fcf003b69775fbf9c33030b59129424c323a58beec1d36f65e864f9b62f4d2abbc63c400dd4bdb652d77db2f61a9c51770e7ae0e7bf98ca635f92e0aa36a6a4c2c2f2ee786f432e24b9f64181cc44e6fcd6444a01f3b0cac1eeb34a9c6dc0</MsSpecPublicKey>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="MsSpecification.Core.Tests" Key="$(MsSpecPublicKey)" />
+    <InternalsVisibleTo Include="MsSpecification.Infra.EF" Key="$(MsSpecPublicKey)" />
+    <None Include="../../logo.png" Pack="true" PackagePath="" />
+    <None Include="../../README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+</Project>
