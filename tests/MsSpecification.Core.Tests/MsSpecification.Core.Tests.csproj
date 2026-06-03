@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\MsSpecification.Core\MsSpecification.Core.csproj" />
+  </ItemGroup>
+
+  <!--
+    Workaround: xunit.runner.visualstudio.props adds None items with CopyToOutputDirectory>PreserveNewest,
+    but they are not being copied during build. This target ensures the test adapter DLL is present
+    in the output directory so dotnet test can discover xUnit tests.
+  -->
+  <Target Name="CopyXunitTestAdapter" AfterTargets="Build">
+    <PropertyGroup>
+      <XunitAdapterPath>$(NuGetPackageRoot)xunit.runner.visualstudio\3.1.5\build\net8.0\xunit.runner.visualstudio.testadapter.dll</XunitAdapterPath>
+    </PropertyGroup>
+    <Copy SourceFiles="$(XunitAdapterPath)" DestinationFolder="$(OutputPath)" Condition="Exists('$(XunitAdapterPath)')" />
+  </Target>
+
+</Project>
